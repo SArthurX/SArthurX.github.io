@@ -1,0 +1,297 @@
+<!DOCTYPE html><html lang="en" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Poetry 安裝&amp;使用 | Saxon Utopia</title><meta name="author" content="Saxon Chen"><meta name="copyright" content="Saxon Chen"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="最近被pipenv搞到，我原本在用python 3.12，但因為某個必要的套件沒更新上來似乎只能在舊版安裝，想了一想python也裝了3個版本，似乎也沒必要用到那麼多就把最新的3.12和3.11砍了再去安裝穩定版的3.10，原本以為只有單純的改一下環境變數而已沒什麼太大問題，可這時候問題就來了&#x3D;&#x3D;，後續pipenv不管怎樣install都會吃到舊版本，重下載重開機也沒用，環境也">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Poetry 安裝&amp;使用">
+<meta property="og:url" content="https://sarthurx.github.io/2023/12/04/Poetry%20%E5%AE%89%E8%A3%9D&%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="Saxon Utopia">
+<meta property="og:description" content="最近被pipenv搞到，我原本在用python 3.12，但因為某個必要的套件沒更新上來似乎只能在舊版安裝，想了一想python也裝了3個版本，似乎也沒必要用到那麼多就把最新的3.12和3.11砍了再去安裝穩定版的3.10，原本以為只有單純的改一下環境變數而已沒什麼太大問題，可這時候問題就來了&#x3D;&#x3D;，後續pipenv不管怎樣install都會吃到舊版本，重下載重開機也沒用，環境也">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://sarthurx.github.io/img/avatar.png">
+<meta property="article:published_time" content="2023-12-04T14:53:01.000Z">
+<meta property="article:modified_time" content="2024-02-12T20:24:47.576Z">
+<meta property="article:author" content="Saxon Chen">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://sarthurx.github.io/img/avatar.png"><link rel="shortcut icon" href="/img/atom.png"><link rel="canonical" href="https://sarthurx.github.io/2023/12/04/Poetry%20%E5%AE%89%E8%A3%9D&amp;%E4%BD%BF%E7%94%A8/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Error',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: 'days',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"You have switched to Traditional Chinese","cht_to_chs":"You have switched to Simplified Chinese","day_to_night":"You have switched to Dark Mode","night_to_day":"You have switched to Light Mode","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Poetry 安裝&使用',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: undefined,
+  isToc: true,
+  postUpdate: '2024-02-13 04:24:47'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">Loading...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (false) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">15</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">3</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 檔案</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 標籤</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清單</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音樂</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 電影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 連結</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 關於</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.mos.cms.futurecdn.net/HsDtpFEHbDpae6wBuW5wQo.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="Saxon Utopia"><span class="site-name">Saxon Utopia</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 檔案</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 標籤</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清單</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音樂</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 電影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 連結</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 關於</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Poetry 安裝&amp;使用</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2023-12-04T14:53:01.000Z" title="Created 2023-12-04 22:53:01">2023-12-04</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2024-02-12T20:24:47.576Z" title="Updated 2024-02-13 04:24:47">2024-02-13</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">Word Count:</span><span class="word-count">1.9k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">Reading Time:</span><span>6mins</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Poetry 安裝&amp;使用"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>最近被pipenv搞到，我原本在用python 3.12，但因為某個必要的套件沒更新上來似乎只能在舊版安裝，想了一想python也裝了3個版本，似乎也沒必要用到那麼多就把最新的3.12和3.11砍了再去安裝穩定版的3.10，原本以為只有單純的改一下環境變數而已沒什麼太大問題，可這時候問題就來了&#x3D;&#x3D;，後續pipenv不管怎樣install都會吃到舊版本，重下載重開機也沒用，環境也都確認移除掉了，不知道哪裡跑出來原本的3.11</p>
+<div class="gallery-container" data-type="data" data-button="">
+      <div class="gallery-data">[{"url":"pipenv_error.png","alt":""}]</div>
+      <div class="gallery-items">
+      </div>
+    </div>
+
+<h3 id="解決方法"><a href="#解決方法" class="headerlink" title="解決方法"></a>解決方法</h3><p>最後發現似乎是pipenv裡的緩存搞的，雖然我也不知道為什麼uninstall掉還會有什麼緩存，總之只要以下指令清除就可以正常安裝了</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pipenv --<span class="built_in">rm</span></span><br></pre></td></tr></table></figure>
+<div class="gallery-container" data-type="data" data-button="">
+      <div class="gallery-data">[{"url":"pipenv_fix.png","alt":""}]</div>
+      <div class="gallery-items">
+      </div>
+    </div>
+
+<p>但這也讓我萌生了放棄pipenv的想法，上網查了一下有沒有相關的套件管理工具時發現了 <a target="_blank" rel="noopener" href="https://python-poetry.org/"><strong>Poetry</strong></a><br>這個好用的東西，因為我本來就看pipenv lock時間很不順眼了，以前在玩arch的時候不知道為什麼每次都要lock個十幾年才能轉好&#x3D;&#x3D; ，即使用<code>--skip-lock</code>時間也不會差多少，總之既然有更好的工具為何不用呢</p>
+<h1 id="安裝Poetry"><a href="#安裝Poetry" class="headerlink" title="安裝Poetry"></a>安裝Poetry</h1><p>可以用pip安裝或是官方的方式下載 <a target="_blank" rel="noopener" href="https://python-poetry.org/docs/#installation">官方安裝Doc</a><br>那就使用官方的吧</p>
+<h3 id="Linux-macOS-Windows-WSL"><a href="#Linux-macOS-Windows-WSL" class="headerlink" title="Linux, macOS, Windows (WSL)"></a>Linux, macOS, Windows (WSL)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ curl -sSL https://install.python-poetry.org | python3 -</span><br></pre></td></tr></table></figure>
+
+<h3 id="Windows-Powershell"><a href="#Windows-Powershell" class="headerlink" title="Windows (Powershell)"></a>Windows (Powershell)</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$</span> (<span class="built_in">Invoke-WebRequest</span> <span class="literal">-Uri</span> https://install.python<span class="literal">-poetry</span>.org <span class="literal">-UseBasicParsing</span>).Content | py -</span><br></pre></td></tr></table></figure>
+<p>安裝完後應該會在以下路徑</p>
+<ul>
+<li>$HOME&#x2F;.local&#x2F;bin <strong>on Unix</strong></li>
+<li>%APPDATA%\Python\Scripts <strong>on Windows</strong></li>
+</ul>
+<h2 id="設定-PATH"><a href="#設定-PATH" class="headerlink" title="設定 PATH"></a>設定 PATH</h2><h3 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h3><p>如果選擇「全域安裝」一定要先設置PATH 環境變數才能使用，如果是Linux就只要在shell的config加上</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$HOME</span>/.local/bin</span><br></pre></td></tr></table></figure>
+<p>( shell config名稱bash –&gt; <code>.bashrc</code> zsh –&gt; <code>.zshrc</code> 通常會在家目錄底下 )</p>
+<h3 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h3><p>我通常都直接搜尋啦就不打指令了</p>
+<ol>
+<li>Windows 搜尋「編輯系統環境變數」點進去</li>
+<li>「進階」</li>
+<li>點選「環境變數」</li>
+<li>此時會打開另一個新視窗，有「使用者變數」、「系統變數」 我通常都只改使用者變數而已，就差在其他使用者可不可以用，而系統變數需要重開機才會生效。</li>
+<li>裡面會有一個Path的欄位 點進去</li>
+<li>按新增後把路徑打上去或點瀏覽選擇該路徑，然後點確定就完成了</li>
+</ol>
+<p><strong>新增完後別忘了重開你的Terminal</strong></p>
+<p>重開後就可以確認看看有沒有成功安裝了</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ poetry --version</span><br><span class="line">Poetry (version 1.7.1)</span><br></pre></td></tr></table></figure>
+
+<h2 id="初始化-Poetry"><a href="#初始化-Poetry" class="headerlink" title="初始化 Poetry"></a>初始化 Poetry</h2><p>要先初始化才能使用Poetry，就隨便開一個資料夾測試吧</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">mkdir</span> poetest</span><br><span class="line">$ <span class="built_in">cd</span> poetest</span><br><span class="line">$ poetry init</span><br></pre></td></tr></table></figure>
+<p>初始化後他會跳出一些選項讓你選，沒什麼差別大部分就先全都enter就好</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$ poetry init</span><br><span class="line"></span><br><span class="line">This <span class="built_in">command</span> will guide you through creating your pyproject.toml config.</span><br><span class="line"></span><br><span class="line">Package name [poetest]:</span><br><span class="line">Version [0.1.0]:</span><br><span class="line">Description []:</span><br><span class="line">Author [SArthurX &lt;sxa05z@gmail.com&gt;, n to skip]:</span><br><span class="line">License []:</span><br><span class="line">Compatible Python versions [^3.10]:</span><br><span class="line"></span><br><span class="line">Would you like to define your main dependencies interactively? (<span class="built_in">yes</span>/no) [<span class="built_in">yes</span>] no</span><br><span class="line">Would you like to define your development dependencies interactively? (<span class="built_in">yes</span>/no) [<span class="built_in">yes</span>] no</span><br></pre></td></tr></table></figure>
+<p>最後會問你「Do you confirm generation? (yes&#x2F;no) [yes]」，按enter後就建立完成了，這時候你會看到目錄裡生成了一個pyproject.toml的檔案，這樣就初始化成功了</p>
+<h2 id="建立虛擬環境-venv"><a href="#建立虛擬環境-venv" class="headerlink" title="建立虛擬環境(venv)"></a>建立虛擬環境(venv)</h2><p>為什麼要建立虛擬環境呢，因為不是每個專案都支援相同版本的套件，而直接pip install下來可能會使其他套件產生衝突，這時候我們就需要虛擬環境去幫我們做隔絕的動作，我用下來還是覺得Poetry和Pipenv的環境開啟方式我最喜歡就簡簡單單打一行就可以了，不像其他虛擬環境還需要source資料夾裡面的activate，回歸正題，Poetry和Pipenv的虛擬環境開啟方式一樣</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ Poetry shell</span><br></pre></td></tr></table></figure>
+<p>就會幫你開起來了，而通常進入虛擬環境後你的shell也會顯示 <em>(該環境名稱) $</em> 告訴你目前的狀態是在虛擬環境中，在這環境下執行的操作就不怕去汙染到全域了</p>
+<p>如果要建立其他版本的虛擬環境則需要使用</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ poetry <span class="built_in">env</span> use python</span><br></pre></td></tr></table></figure>
+<p>只打python的話他會以你預設的python版本去建立，如果指定其他版本就把後面的python加上該版本就行了</p>
+<h3 id="虛擬環境路徑"><a href="#虛擬環境路徑" class="headerlink" title="虛擬環境路徑"></a>虛擬環境路徑</h3><p>預設情況建立一個虛擬環境後預設路徑會放在<strong>/User&#x2F;AppData&#x2F;Local&#x2F;pypoetry&#x2F;Cache&#x2F;virtualenvs</strong> 底下，名稱是 <strong>專案名稱-亂數-Python版本</strong></p>
+<p>雖然沒什麼差但如果想讓虛擬環境跟著專案包在一起的話可以修改Poetry的config<br>先看看Poetry有哪些config</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">$ poetry config --list`</span><br><span class="line"></span><br><span class="line">cache-dir = <span class="string">&quot;C:\\Users\\AppData\\Local\\pypoetry\\Cache&quot;</span></span><br><span class="line">experimental.system-git-client = <span class="literal">false</span></span><br><span class="line">installer.max-workers = null</span><br><span class="line">installer.modern-installation = <span class="literal">true</span></span><br><span class="line">installer.no-binary = null</span><br><span class="line">installer.parallel = <span class="literal">true</span></span><br><span class="line">virtualenvs.create = <span class="literal">true</span></span><br><span class="line">virtualenvs.in-project = null</span><br><span class="line">virtualenvs.options.always-copy = <span class="literal">false</span></span><br><span class="line">virtualenvs.options.no-pip = <span class="literal">false</span></span><br><span class="line">virtualenvs.options.no-setuptools = <span class="literal">false</span></span><br><span class="line">virtualenvs.options.system-site-packages = <span class="literal">false</span></span><br><span class="line">virtualenvs.path = <span class="string">&quot;&#123;cache-dir&#125;\\virtualenvs&quot;</span>  <span class="comment"># C:\Users\6\AppData\Local\pypoetry\Cache\virtualenvs</span></span><br><span class="line">virtualenvs.prefer-active-python = <span class="literal">false</span></span><br><span class="line">virtualenvs.prompt = <span class="string">&quot;&#123;project_name&#125;-py&#123;python_version&#125;&quot;</span></span><br><span class="line">warnings.export = <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>其中有一項<code>virtualenvs.in-project = null</code>，我們修改為true</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ poetry config virtualenvs.in-project <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>就可以把新創建的環境放在專案下了，再來重新建立一個環境就會看到目錄底下生成名稱為<code>.venv</code>的資料夾，這就是我們的環境所在地</p>
+<h2 id="安裝及刪除套件"><a href="#安裝及刪除套件" class="headerlink" title="安裝及刪除套件"></a>安裝及刪除套件</h2><h3 id="安裝套件"><a href="#安裝套件" class="headerlink" title="安裝套件"></a>安裝套件</h3><p>跟<code>pip install</code>一樣只是poetry改成add了</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ poetry add &#123;name&#125;</span><br></pre></td></tr></table></figure>
+<p>如果在後面加上參數<code>--group dev</code>則會安裝在開發環境上<br>安裝後pyproject.toml裡面就會加上你安裝的套件名稱及版本</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">[tool.poetry.dependencies]</span><br><span class="line">python = <span class="string">&quot;^3.10&quot;</span></span><br><span class="line">numpy = <span class="string">&quot;^1.26.2&quot;</span></span><br><span class="line"></span><br><span class="line">[build-system]</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>除了pyproject.toml外，專案裡還會多一個poetry.lock的檔案，虛擬環境就是依照這個檔案去做更新的<br>當你poetry add後，Poetry會自動幫你做完這三件事</p>
+<ol>
+<li>寫入pyproject.toml</li>
+<li>依照pyproject.toml的內容，更新poetry.lock</li>
+<li>再依照poetry.lock，更新虛擬環境</li>
+</ol>
+<p>所以如果我們手動更改了pyproject.toml記得使用</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ poetry lock</span><br></pre></td></tr></table></figure>
+<p>讓poetry.lock同步，畢竟虛擬環境是基於他去更新套件的<br>說白了就是每次Poetry安裝套件時都會幫你<strong>自動生成<em>requirements.txt</em></strong></p>
+<p>而要一次安裝pyproject.toml裡的全部套件時只要</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ poetry install</span><br></pre></td></tr></table></figure>
+<p>就會幫你一次把所有套件安裝下來</p>
+<h3 id="移除套件"><a href="#移除套件" class="headerlink" title="移除套件"></a>移除套件</h3><p>因為Poetry有解析依賴套件的功能，所以可以放心移除某個專案不要用到的套件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ poetry remove</span><br></pre></td></tr></table></figure>
+<p>這正是和pip不同的地方，pip的uninstall只會移除掉該套件而已，而不移除該套件的依賴，雖然是基於安全性但也會讓電腦裡裝很多不必要的東西，但如果真的要完全移除依賴套件又可能會造成其他也依賴這套件的套件(<del>怎麼有點繞口</del>)無法使用，改用Poetry後就可以避免在這個問題，移除之前他會檢查其餘套件是否也會使用到這個依賴，如果都沒用到才會刪除，這樣就不會發生可能會用到這個依賴包卻被不小心移除掉了情況了。</p>
+<h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h2><p>目前應該就這樣吧，反正就基本功能介紹，有想到什麼新的再寫。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://blog.kyomind.tw/python-poetry/">https://blog.kyomind.tw/python-poetry/</a></li>
+<li><a target="_blank" rel="noopener" href="https://python-poetry.org/docs/">https://python-poetry.org/docs/</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.maxlist.xyz/2022/05/08/python-poetry/">https://www.maxlist.xyz/2022/05/08/python-poetry/</a></li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="https://sarthurx.github.io">Saxon Chen</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="https://sarthurx.github.io/2023/12/04/Poetry%20%E5%AE%89%E8%A3%9D&amp;%E4%BD%BF%E7%94%A8/">https://sarthurx.github.io/2023/12/04/Poetry%20%E5%AE%89%E8%A3%9D&amp;%E4%BD%BF%E7%94%A8/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="/img/avatar.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/12/05/lol/" title="lol"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">Previous</div><div class="prev_info">lol</div></div></a></div><div class="next-post pull-right"><a href="/2023/11/23/Hexo%E7%9A%84%E5%9D%91/" title="Hexo的坑=="><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">Next</div><div class="next_info">Hexo的坑==</div></div></a></div></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> Comment</span></div></div><div class="comment-wrap"><div><div id="utterances-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Saxon Chen</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">15</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">3</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/SArthurX"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/SArthurX" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:sxa05z@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E6%B1%BA%E6%96%B9%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">解決方法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E8%A3%9DPoetry"><span class="toc-number"></span> <span class="toc-text">安裝Poetry</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux-macOS-Windows-WSL"><span class="toc-number">1.</span> <span class="toc-text">Linux, macOS, Windows (WSL)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Windows-Powershell"><span class="toc-number">2.</span> <span class="toc-text">Windows (Powershell)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A8%AD%E5%AE%9A-PATH"><span class="toc-number"></span> <span class="toc-text">設定 PATH</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux"><span class="toc-number">1.</span> <span class="toc-text">Linux</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Windows"><span class="toc-number">2.</span> <span class="toc-text">Windows</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96-Poetry"><span class="toc-number"></span> <span class="toc-text">初始化 Poetry</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BB%BA%E7%AB%8B%E8%99%9B%E6%93%AC%E7%92%B0%E5%A2%83-venv"><span class="toc-number"></span> <span class="toc-text">建立虛擬環境(venv)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%99%9B%E6%93%AC%E7%92%B0%E5%A2%83%E8%B7%AF%E5%BE%91"><span class="toc-number">1.</span> <span class="toc-text">虛擬環境路徑</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%9D%E5%8F%8A%E5%88%AA%E9%99%A4%E5%A5%97%E4%BB%B6"><span class="toc-number"></span> <span class="toc-text">安裝及刪除套件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%9D%E5%A5%97%E4%BB%B6"><span class="toc-number">1.</span> <span class="toc-text">安裝套件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A7%BB%E9%99%A4%E5%A5%97%E4%BB%B6"><span class="toc-number">2.</span> <span class="toc-text">移除套件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B5%90%E8%AB%96"><span class="toc-number"></span> <span class="toc-text">結論</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="toc-number"></span> <span class="toc-text">參考資料</span></a></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/02/13/%E5%9C%A8MacOS%E4%B8%8A%E4%BD%BF%E7%94%A8Nix%E4%BD%9C%E7%82%BApackage-manager/" title="在MacOS上使用Nix作為package manager">在MacOS上使用Nix作為package manager</a><time datetime="2024-02-12T20:26:09.000Z" title="Created 2024-02-13 04:26:09">2024-02-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/02/13/hello-world/" title="Hello World">Hello World</a><time datetime="2024-02-12T20:24:47.578Z" title="Created 2024-02-13 04:24:47">2024-02-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/01/12/%E7%94%9F%E6%B6%AF%E8%A6%8F%E5%8A%83/" title="生涯規劃..">生涯規劃..</a><time datetime="2024-01-11T20:40:52.000Z" title="Created 2024-01-12 04:40:52">2024-01-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/12/24/git%E7%AD%86%E8%A8%98/" title="git筆記">git筆記</a><time datetime="2023-12-23T19:05:04.000Z" title="Created 2023-12-24 03:05:04">2023-12-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/12/22/30-Days-of-JavaScript/" title="30 Days of JavaScript">30 Days of JavaScript</a><time datetime="2023-12-21T19:51:06.000Z" title="Created 2023-12-22 03:51:06">2023-12-22</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://cdn.mos.cms.futurecdn.net/HsDtpFEHbDpae6wBuW5wQo.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By Saxon Chen</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="Scroll To Comments"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><div class="js-pjax"><script>(() => {
+  const loadUtterances = () => {
+    let ele = document.createElement('script')
+    ele.id = 'utterances_comment'
+    ele.src = 'https://utteranc.es/client.js'
+    ele.setAttribute('repo', 'SArthurX/SArthurX.github.io')
+    ele.setAttribute('issue-term', 'pathname')
+    const nowTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'photon-dark' : 'github-light'
+    ele.setAttribute('theme', nowTheme)
+    ele.crossOrigin = 'anonymous'
+    ele.async = true
+    document.getElementById('utterances-wrap').appendChild(ele)
+  }
+
+  const utterancesTheme = theme => {
+    const iframe = document.querySelector('.utterances-frame')
+    if (iframe) {
+      const theme = theme === 'dark' ? 'photon-dark' : 'github-light'
+      const message = {
+        type: 'set-theme',
+        theme: theme
+      };
+      iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+    }
+  }
+
+  btf.addGlobalFn('themeChange', utterancesTheme, 'utterances')
+
+  if ('Utterances' === 'Utterances' || !true) {
+    if (true) btf.loadComment(document.getElementById('utterances-wrap'), loadUtterances)
+    else loadUtterances()
+  } else {
+    window.loadOtherComment = loadUtterances
+  }
+})()</script></div><canvas class="fireworks" mobile="true"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script id="canvas_nest" defer="defer" color="255,0,0" opacity="0.7" zIndex="-1" count="99" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
