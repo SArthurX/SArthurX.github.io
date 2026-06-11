@@ -1,0 +1,59 @@
+---
+import Layout from "../layouts/Layout.astro";
+import LoaderAnimation from "../components/LoaderAnimation.astro";
+import BackLink from "../components/BackLink.astro";
+import Card from "../components/Card/index.astro";
+import { SITE } from "../site-config";
+
+// Add your side projects here!
+const projects = [
+  {
+    title: "Example Project",
+    description: "A description of your awesome side project. You can describe the hardware, firmware architecture, RTOS details, or AI models utilized.",
+    link: "https://github.com/SArthurX",
+    tags: ["C++", "FreeRTOS", "Edge AI"],
+  },
+];
+---
+
+<LoaderAnimation />
+
+<Layout
+  title={`${SITE.author.fullName} - Projects`}
+  description="A collection of my side projects and software creations."
+>
+  <main class="w-full max-w-3xl mx-auto px-6 py-10 text-white min-h-screen">
+    <BackLink href="/" class="mb-8" />
+
+    <h1 class="text-4xl font-bold mb-2 text-neutral-100">Projects</h1>
+    <p class="text-darkslate-300 text-sm mb-10">
+      A collection of side projects, open-source work, and hardware-software integration experiments.
+    </p>
+
+    <div class="flex flex-col gap-4">
+      {
+        projects.length > 0 ? (
+          projects.map((project) => (
+            <Card href={project.link} target="_blank" arrowCorner={true}>
+              <div class="flex flex-col gap-2">
+                <h2 class="text-xl font-bold text-neutral-100">{project.title}</h2>
+                <p class="text-sm text-darkslate-300">{project.description}</p>
+                <div class="flex flex-wrap gap-1.5 mt-2">
+                  {project.tags.map((tag) => (
+                    <span class="text-[10px] font-medium px-2 py-0.5 rounded-full border border-darkslate-400 text-darkslate-300">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </Card>
+          ))
+        ) : (
+          <p class="text-darkslate-400 text-sm italic">
+            More projects coming soon...
+          </p>
+        )
+      }
+    </div>
+  </main>
+</Layout>

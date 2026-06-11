@@ -1,0 +1,303 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Card from "../components/Card/index.astro";
+import IntroCard from "../components/IntroCard.astro";
+import ContactsCard from "../components/ContactsCard.astro";
+import ThemeChangeCard from "../components/ThemeChangeCard.astro";
+import TimeZone from "../components/TimeZoneCard.astro";
+import AboutMe from "../components/AboutMe.astro";
+import Now from "../components/Now.astro";
+import Globe from "../components/Globe";
+import ProjectsCard from "../components/ProjectsCard.astro";
+import PixelHeart from "../components/PixelHeart.astro";
+import { SITE } from "../site-config";
+---
+
+<script>
+  import { initHomeEntrance } from "../lib/home-entrance";
+  initHomeEntrance();
+</script>
+
+<script>
+  // --- Shared state ---
+  const CURSOR_TRAIL_LENGTH = 8;
+  const CURSOR_TRAIL_OPACITY = [0.8, 0.6, 0.45, 0.3, 0.2, 0.12, 0.07, 0.03];
+
+  let glowInterval: ReturnType<typeof setInterval> | null = null;
+  let blogRafId: number | null = null;
+  let playgroundObserver: ResizeObserver | null = null;
+
+  // --- Helpers ---
+  function buildFixedGrid(
+    container: HTMLElement,
+    cellSize: number,
+    cellStyle: string,
+    extraRows = 0,
+  ) {
+    const cols = Math.max(1, Math.floor(container.clientWidth / cellSize));
+    const rows =
+      Math.max(1, Math.floor(container.clientHeight / cellSize)) + extraRows;
+    Object.assign(container.style, {
+      display: "grid",
+      gridTemplateColumns: `repeat(${cols}, ${cellSize}px)`,
+      gridTemplateRows: `repeat(${rows}, ${cellSize}px)`,
+      placeContent: "center",
+    });
+    container.innerHTML = "";
+    for (let i = 0; i < cols * rows; i++) {
+      const cell = document.createElement("div");
+      cell.style.cssText = cellStyle;
+      container.appendChild(cell);
+    }
+    return { cols, rows };
+  }
+
+  function clearCellStyle(cell: HTMLElement) {
+    cell.style.background = "";
+    cell.style.opacity = "";
+    cell.style.transition = "";
+  }
+
+  // --- Playground: square cell grid with cursor trail ---
+  function initPlaygroundGrid() {
+    const el = document.getElementById("playground-grid");
+    if (!el) return;
+    const container = el as HTMLElement;
+
+    const TARGET_CELL_SIZE = 20;
+    let cols = 1;
+    let cellWidth = TARGET_CELL_SIZE;
+    let cellHeight = TARGET_CELL_SIZE;
+    let totalCells = 1;
+
+    function rebuild() {
+      const w = container.clientWidth;
+      const h = container.clientHeight;
+      if (!w || !h) return;
+      cols = Math.max(1, Math.round(w / TARGET_CELL_SIZE));
+      const rows = Math.max(1, Math.round(h / TARGET_CELL_SIZE));
+      cellWidth = w / cols;
+      cellHeight = h / rows;
+      totalCells = cols * rows;
+      Object.assign(container.style, {
+        display: "grid",
+        gridTemplateColumns: `repeat(${cols}, 1fr)`,
+        gridTemplateRows: `repeat(${rows}, 1fr)`,
+      });
+      container.innerHTML = "";
+      for (let i = 0; i < totalCells; i++) {
+        const cell = document.createElement("div");
+        cell.style.cssText =
+          "border:0.5px solid rgba(255,255,255,0.03);transition:background 0.4s,opacity 0.4s;";
+        container.appendChild(cell);
+      }
+    }
+
+    rebuild();
+
+    if (playgroundObserver) playgroundObserver.disconnect();
+    playgroundObserver = new ResizeObserver(rebuild);
+    playgroundObserver.observe(container);
+
+    // Random glow pulses
+    if (glowInterval) clearInterval(glowInterval);
+    glowInterval = setInterval(() => {
+      const cell = container.children[
+        Math.floor(Math.random() * totalCells)
+      ] as HTMLElement;
+      if (!cell) return;
+      cell.style.background = "var(--primary-500)";
+      cell.style.opacity = "0.5";
+      setTimeout(() => {
+        cell.style.background = "";
+        cell.style.opacity = "0.06";
+        setTimeout(() => {
+          cell.style.opacity = "";
+        }, 400);
+      }, 600);
+    }, 250);
+
+    // Cursor trail
+    const card = document
+      .querySelector<HTMLElement>('a[href="playground"]')
+      ?.closest<HTMLElement>(".card");
+    let trailIndices: number[] = [];
+
+    const paintTrail = () =>
+      trailIndices.forEach((cellIndex, trailPos) => {
+        const cell = container.children[cellIndex] as HTMLElement;
+        if (!cell) return;
+        cell.style.transition = "none";
+        cell.style.background = "var(--primary-500)";
+        cell.style.opacity = String(CURSOR_TRAIL_OPACITY[trailPos] ?? 0);
+      });
+
+    const fadeAndClearTrail = () => {
+      trailIndices.forEach((cellIndex) => {
+        const cell = container.children[cellIndex] as HTMLElement;
+        if (cell) {
+          cell.style.transition = "opacity 0.1s";
+          cell.style.opacity = "0";
+        }
+      });
+      setTimeout(() => {
+        trailIndices.forEach((cellIndex) => {
+          const cell = container.children[cellIndex] as HTMLElement;
+          if (cell) clearCellStyle(cell);
+        });
+        trailIndices = [];
+      }, 100);
+    };
+
+    card?.addEventListener("mousemove", (e: MouseEvent) => {
+      if (!window.matchMedia("(pointer: fine)").matches) return;
+      const rect = container.getBoundingClientRect();
+      const cellIndex =
+        Math.floor((e.clientY - rect.top) / cellHeight) * cols +
+        Math.floor((e.clientX - rect.left) / cellWidth);
+      if (
+        cellIndex === trailIndices[0] ||
+        cellIndex < 0 ||
+        cellIndex >= totalCells
+      )
+        return;
+      trailIndices = [
+        cellIndex,
+        ...trailIndices.filter((i) => i !== cellIndex),
+      ];
+      if (trailIndices.length > CURSOR_TRAIL_LENGTH) {
+        trailIndices.splice(CURSOR_TRAIL_LENGTH).forEach((i) => {
+          const cell = container.children[i] as HTMLElement;
+          if (cell) {
+            cell.style.transition = "opacity 0.1s";
+            cell.style.opacity = "0";
+            setTimeout(() => clearCellStyle(cell), 100);
+          }
+        });
+      }
+      paintTrail();
+    });
+
+    card?.addEventListener("mouseleave", fadeAndClearTrail);
+  }
+
+  // --- Blog: circle dot grid with ripple animation ---
+  function initBlogGrid() {
+    const container = document.getElementById("blog-bg");
+    if (!container) return;
+
+    const { cols, rows } = buildFixedGrid(
+      container,
+      18,
+      "border-radius:50%;margin:4px;box-sizing:border-box;border:1px solid var(--primary-500);opacity:0;",
+      2,
+    );
+
+    // Ripple origin offset from top-left corner
+    const originCol = -cols * 0.3;
+    const originRow = -rows * 0.3;
+    const maxDist = Math.sqrt(originCol ** 2 + originRow ** 2);
+
+    if (blogRafId !== null) cancelAnimationFrame(blogRafId);
+
+    const animate = (timestamp: number) => {
+      const time = timestamp * 0.0007;
+      for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
+          const cell = container.children[row * cols + col] as HTMLElement;
+          if (!cell) continue;
+          const dist =
+            Math.sqrt((col - originCol) ** 2 + (row - originRow) ** 2) /
+            maxDist;
+          cell.style.opacity = Math.max(
+            0,
+            Math.cos(time * 2.2 - dist * 7) * 0.35,
+          ).toFixed(3);
+        }
+      }
+      blogRafId = requestAnimationFrame(animate);
+    };
+
+    blogRafId = requestAnimationFrame(animate);
+  }
+
+  document.addEventListener("astro:page-load", () => {
+    initPlaygroundGrid();
+    initBlogGrid();
+  });
+
+  document.addEventListener("astro:before-swap", () => {
+    if (glowInterval) clearInterval(glowInterval);
+    if (blogRafId !== null) cancelAnimationFrame(blogRafId);
+    if (playgroundObserver) {
+      playgroundObserver.disconnect();
+      playgroundObserver = null;
+    }
+  });
+</script>
+
+<Layout
+  description={`I'm a developer based in ${SITE.location.countryName}, passionate about embedded systems, C/C++ development, and building robust software for real-world hardware.`}
+  title={`${SITE.author.fullName} - ${SITE.author.jobTitle}`}
+>
+  <main
+    class="text-white m-auto p-2 grid gap-2 max-w-6xl overflow-x-hidden relative w-full sm:p-4 sm:gap-2 md:grid-cols-2 md:gap-3 md:p-6 lg:h-[max(100dvh,830px)] lg:grid-rows-8 lg:grid-cols-4 lg:gap-4"
+  >
+    <IntroCard />
+    <AboutMe />
+    <ContactsCard />
+    <TimeZone />
+    <ProjectsCard />
+    <Now />
+    <Card href="playground" colSpan="md:col-span-1" rowSpan="md:row-span-1">
+      <div slot="background" class="absolute inset-0 -z-10 overflow-hidden">
+        <div id="playground-grid" class="absolute inset-0"></div>
+      </div>
+      <div class="flex-1 flex items-center">
+        <h2 class="text-xl md:text-2xl xl:text-xl font-bold m-0">Playground</h2>
+      </div>
+    </Card>
+    <Card href="/blog" colSpan="md:col-span-1" rowSpan="md:row-span-1">
+      <div
+        slot="background"
+        id="blog-bg"
+        class="absolute inset-0 overflow-hidden pointer-events-none"
+        aria-hidden="true"
+      >
+      </div>
+      <div class="flex-1 flex items-center">
+        <h2 class="text-xl md:text-2xl xl:text-xl font-bold m-0">Blog</h2>
+      </div>
+    </Card>
+    <Card
+      colSpan="md:col-span-1"
+      href="travel"
+      rowSpan="md:row-span-2"
+      title="Countries I visited"
+    >
+      <div slot="background" class="absolute inset-0 -z-10">
+        <div class="hidden md:block h-full w-full">
+          <Globe client:visible />
+        </div>
+        <div class="block md:hidden h-full w-full">
+          <Globe client:visible isStatic={true} />
+        </div>
+      </div>
+      <span class="text-xs text-white/60"
+        >{SITE.visitedCountries.length} countries</span
+      >
+    </Card>
+    <ThemeChangeCard />
+    <Card colSpan="md:col-span-1" rowSpan="md:row-span-1">
+      <div class="flex h-full items-center justify-center">
+        <p class="text-[10px] whitespace-nowrap text-center">
+          © {new Date().getFullYear()} · Crafted with <PixelHeart /> using <a
+            class="text-red-500"
+            href="https://astro.build/"
+            target="_blank">Astro</a
+          > by Me.
+        </p>
+      </div>
+    </Card>
+  </main>
+</Layout>
