@@ -2,22 +2,43 @@
 import Layout from "../../layouts/Layout.astro";
 import LoaderAnimation from "../../components/LoaderAnimation.astro";
 import BackLink from "../../components/BackLink.astro";
+import PostRow from "../../components/Blog/PostRow.astro";
+import { getCollection } from "astro:content";
 import { SITE } from "../../site-config";
+
+const posts = (await getCollection("blog")).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
 ---
 
 <LoaderAnimation />
 
 <Layout
-  description="Software developer with strong focus on the user experience animations and micro interactions"
+  description="AI Firmware Engineer blog sharing notes on embedded systems, edge AI, RTOS, and hardware integration."
   title={`${SITE.author.fullName} - Blog`}
 >
   <main
-    class="w-screen h-screen flex flex-col justify-start items-start max-w-3xl mx-auto p-8"
+    class="w-screen h-screen flex flex-col justify-start items-start max-w-3xl mx-auto p-8 text-white"
   >
     <BackLink href="/" class="mb-8" />
-    <h1 class="text-4xl font-bold mb-4 text-neutral-100">Posts</h1>
-    <p class="text-darkslate-300 text-sm">
-      Nothing to say right now... check back later (or don't, no pressure 🙃)
-    </p>
+    <h1 class="text-4xl font-bold mb-6 text-neutral-100">Posts</h1>
+    {
+      posts.length > 0 ? (
+        <ul class="w-full p-0 m-0">
+          {posts.map((post) => (
+            <PostRow
+              title={post.data.title}
+              date={post.data.pubDate}
+              id={post.id}
+            />
+          ))}
+        </ul>
+      ) : (
+        <p class="text-darkslate-300 text-sm">
+          I'm still exploring this new path, but I'll share what I learn as I go.
+          Stay tuned!
+        </p>
+      )
+    }
   </main>
 </Layout>
